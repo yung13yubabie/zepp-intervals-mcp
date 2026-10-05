@@ -4,6 +4,46 @@
 
 這個 GitHub repo 可以公開；你建立的健康資料服務應保持私人。範本沒有 API key、帳戶識別資料、真正的健康紀錄或可沿用的 Site 身分。下載後預設無法讀取健康資料。
 
+## 圖解快速開始
+
+先看這張圖，知道每一步要去哪裡、做什麼、怎樣才算完成：
+
+![Zepp 經 Intervals、自己的私人 Sites MCP 到 ChatGPT 的八步設定圖解；完整文字版見下方清單](docs/images/setup-roadmap.svg)
+
+### 最容易卡住的設定位置
+
+請進入 [Sites 管理列表](https://chatgpt.com/sites)，找到**自己的 Site → More actions → Settings**。API key 要選 **Secret**；按 Save 後，還要重新部署已核准的保存版本。
+
+![Sites 安全設定示意：INTERVALS_API_KEY 必須選 Secret；擁有者指紋建議 Secret；讀取與條款開關初始 false；Save 後重新部署](docs/images/secret-settings.svg)
+
+這兩張圖都是操作示意，不是私人帳戶截圖。實際介面以你的帳戶及官方文件為準。
+
+### 可展開的完整 HTML 圖解
+
+[查看／下載單檔互動 HTML](docs/visual-guide.html) · [直接下載原始 HTML](https://github.com/yung13yubabie/zepp-intervals-mcp/raw/refs/heads/main/docs/visual-guide.html)
+
+GitHub 的 README 不會執行 HTML 裡的互動程式，所以圖解已直接嵌在本頁；完整 HTML 請下載後用瀏覽器開啟。若上方連結顯示原始碼，可在檔案頁使用 **Download raw file**，保留 `.html` 副檔名。
+
+HTML 內含 8 個可展開步驟、介面示意、設定對照、成功／失敗判斷、常見問題，以及手機和列印版面。可離線閱讀，沒有外部資源、追蹤器、API 請求或金鑰輸入欄位。勾選進度預設不保存；只有你主動選擇後才存在目前瀏覽器，且不代表實際連線已成功。
+
+<details>
+<summary>圖片讀不到？展開八步純文字版</summary>
+
+1. **Zepp → Intervals：** 先在手機 Zepp 同步，再到 Intervals 連線設定找 Amazfit；核對一筆活動及需要的日指標
+2. **找到 API key：** Intervals Settings 底部的 Developer Settings，點 API key 鉛筆／view；不要把 key 貼到聊天或 GitHub
+3. **建立自己的私人 Site：** 提供這份 repo，先用合成資料測試，建立新的私人 Sites MCP 與插件；讀取開關先保持 false
+4. **填安全設定：** Sites 管理 → 自己的 Site → More actions → Settings；`INTERVALS_API_KEY` 必須選 Secret。用登入 Site 的 ChatGPT email 在本機執行 `npm run owner:hash`，填自己的 `OWNER_EMAIL_SHA256`
+5. **儲存並重新部署：** Save → 重新部署已核准保存版本 → 接插件；先用 `check_connection` 和 `get_data_health`，這兩個工具都不讀健康資料
+6. **先讀一天一筆：** 自己接受 API 條款、明確決定資料範圍後，將 `INTERVALS_API_TERMS_ACCEPTED` 與 `INTERVALS_READ_ENABLED` 改 true，重新部署；核對最多一筆明確標記 ZEPP 的活動摘要
+7. **日指標另外開通：** 只有確認整段日期的步數、睡眠、靜息心率與 HRV 只來自 Zepp 且未手動改值，才填四項日期限定聲明並重新部署；不確定就保持封鎖
+8. **日常與停用：** 先同步 Zepp → 自己開 Intervals 核對 → 再問 ChatGPT；停用時設 `INTERVALS_READ_ENABLED=false` 並重新部署，撤銷存取則回 Intervals 撤銷／輪替 key
+
+</details>
+
+**每天看睡眠前，先自己開啟 Intervals。** 官方說明 wellness 會在當日首次造訪後輪詢，之後一天內再輪詢數次；單純問 ChatGPT 不會強制刷新 Zepp。本 MCP 沒有自動排程，抓取時間也不是來源最新同步時間。[官方同步說明](https://forum.intervals.icu/t/amazfit-zepp-support-available/107652)
+
+平台功能、方案額度與費用以你的帳戶及目前服務規定為準，不保證人人可用或免費。Sites 條款禁止處理 HIPAA 定義的受保護健康資訊（PHI）；個人運動資料是否屬於 PHI 要看情境，私人部署不等於合規保證。[Sites 條款 §3.3](https://openai.com/policies/chatgpt-sites-terms/)
+
 ## 先看懂資料怎麼走
 
 ```text
